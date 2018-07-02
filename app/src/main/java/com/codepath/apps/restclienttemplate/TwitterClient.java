@@ -1,14 +1,13 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
+import android.content.res.Resources;
 
 import com.codepath.oauth.OAuthBaseClient;
 import com.github.scribejava.apis.TwitterApi;
 import com.github.scribejava.core.builder.api.BaseApi;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-
-import static android.provider.Settings.Global.getString;
 
 /*
  * 
@@ -25,8 +24,8 @@ import static android.provider.Settings.Global.getString;
 public class TwitterClient extends OAuthBaseClient {
 	public static final BaseApi REST_API_INSTANCE = TwitterApi.instance(); // Change this
 	public static final String REST_URL = "https://api.twitter.com/1.1"; // Change this, base API URL
-	public static final String REST_CONSUMER_KEY = getString(R.string.api_key);       // Change this
-	public static final String REST_CONSUMER_SECRET = getString(R.string.secret_api_key); // Change this
+	public static final String REST_CONSUMER_KEY = Resources.getSystem().getString(R.string.api_key);       // Change this
+	public static final String REST_CONSUMER_SECRET = Resources.getSystem().getString(R.string.secret_api_key); // Change this
 
 	// Landing page to indicate the OAuth flow worked in case Chrome for Android 25+ blocks navigation back to the app.
 	public static final String FALLBACK_URL = "https://codepath.github.io/android-rest-client-template/success.html";
