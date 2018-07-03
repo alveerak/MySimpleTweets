@@ -7,14 +7,34 @@
     tools:context=".ComposeActivity">
 
     <EditText
-        android:maxLength="280"
         android:id="@+id/ptComposeTweet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="What's happening..."
         android:inputType="textPersonName"
-        android:text="Name"
+        android:maxLength="280"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="6dp" />
+
+    <Button
+        android:id="@+id/tweetButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="213dp"
+        android:text="Compose"
+        android:onClick="onClickTweet"/>
+
+    <Button
+        android:id="@+id/bClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="12dp"
+        android:onClick="onCloseCompose"
+        android:text="X" />
+
 </RelativeLayout>
