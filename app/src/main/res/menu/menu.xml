@@ -3,10 +3,9 @@
     <item
         android:id="@+id/miCompose"
         android:icon="@drawable/ic_compose"
-        app:showAsAction="ifRoom"
+        android:onClick="onCompose"
         android:title="Compose"
-        android:onClick="onCompose">
-    </item>
+        app:showAsAction="always"></item>
     <item
         android:id="@+id/miProfile"
         android:icon="@drawable/ic_profile"

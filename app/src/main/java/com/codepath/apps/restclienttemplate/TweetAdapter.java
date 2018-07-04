@@ -18,6 +18,8 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
 public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> {
 
     private List<Tweet> mTweets;
@@ -52,11 +54,13 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         holder.tvUsername.setText(tweet.user.name);
         holder.tvBody.setText(tweet.body);
         holder.tvTimeElapsed.setText(getRelativeTimeAgo(tweet.createdAt));
+        holder.tvHandle.setText("    @"+tweet.handle);
+
 
         // load image using glide
         GlideApp.with(context)
                 .load(tweet.user.profileImageUrl)
-                //.transform(new RoundedCornersTransformation(15, 0))
+                .transform(new RoundedCornersTransformation(75, 0))
                 //.placeholder(placeholderId)
                 //.error(placeholderId)
                 .into(holder.ivProfileImage);
@@ -91,6 +95,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         public TextView tvUsername;
         public TextView tvBody;
         public TextView tvTimeElapsed;
+        public TextView tvHandle;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -101,6 +106,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             tvUsername = (TextView) itemView.findViewById(R.id.tvUserName);
             tvBody = (TextView) itemView.findViewById(R.id.tvBody);
             tvTimeElapsed = (TextView) itemView.findViewById(R.id.tvTimeElapsed);
+            tvHandle = (TextView) itemView.findViewById(R.id.tvHandle);
         }
     }
 

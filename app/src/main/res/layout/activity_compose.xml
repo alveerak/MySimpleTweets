@@ -13,7 +13,7 @@
         android:ems="10"
         android:hint="What's happening..."
         android:inputType="textPersonName"
-        android:maxLength="280"
+        android:maxLength="140"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="6dp" />
 
