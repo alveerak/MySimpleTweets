@@ -12,9 +12,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.models.GlideApp;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.parceler.Parcels;
 
@@ -28,11 +31,16 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> {
 
     private List<Tweet> mTweets;
+    private final Handler handler;
     Context context;
     // pass in the Tweets array in the constructor
-    public TweetAdapter(List<Tweet> tweets) {
+    public TweetAdapter(List<Tweet> tweets, Handler h) {
+        handler = h;
         mTweets = tweets;
     }
+
+    public TwitterClient timelineActionClient;
+    public AsyncHttpResponseHandler timelineActionHandler;
 
     // for each row, inflate the layout and cache references into ViewHolder
 
@@ -47,13 +55,18 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         return viewHolder;
     }
 
+    interface Handler{
+        void onClick(Tweet tweet, Context context);
+    }
 
     // bind the values based on the position of the element
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         // get the data according to position
-        Tweet tweet = mTweets.get(position);
+        final Tweet tweet = mTweets.get(position);
+        timelineActionClient = TwitterApp.getRestClient(context);
+        timelineActionHandler = new JsonHttpResponseHandler() {};
 
         // populate the views according to this data
         holder.tvUsername.setText(tweet.user.name);
@@ -61,16 +74,37 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         holder.tvTimeElapsed.setText(getRelativeTimeAgo(tweet.createdAt));
         holder.tvHandle.setText("    @"+tweet.handle);
         holder.tvNumRetweets.setText(tweet.retweet_count);
-        holder.tvNumFavorites.setText(tweet.favorites_count);
+        holder.tvNumFavorites.setText(tweet.favorites_count+"  ");
+        holder.ivFavoritesImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Tweet tweetToReply = mTweets.get(position);
+                long id = tweet.uid;
+                timelineActionClient.retweet(id, timelineActionHandler);
+                //holder.ivFavoritesImage.setImageIcon();
+                Toast.makeText(context, "You favorited the tweet from timeline!", Toast.LENGTH_LONG).show();
+            }
+        });
+        holder.ivRetweetsImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Tweet tweetToReply = mTweets.get(position);
+                long id = tweet.uid;
+                timelineActionClient.retweet(id, timelineActionHandler);
+                Toast.makeText(context, "You retweeted the tweet from timeline!", Toast.LENGTH_LONG).show();
+            }
+        });
         holder.ibReply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Tweet tweetToReply = mTweets.get(position);
-                Intent i = new Intent(context, ReplyActivity.class);
-                i.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweetToReply));
-                context.startActivity(i);
+                //Intent i = new Intent(context, ReplyActivity.class);
+                //i.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweetToReply));
+                handler.onClick(tweetToReply, context);
+                //context.startActivity(i);
             }
         });
+
         //holder.ptReplyTweet.setText(new O);
 
         // load image using glide
@@ -106,7 +140,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
     }
     // create a ViewHolder class
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public ImageView ivProfileImage;
         public TextView tvUsername;
         public TextView tvBody;
@@ -137,7 +171,30 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             tvNumFavorites = (TextView) itemView.findViewById(R.id.tvNumFavorites);
             ptReplyTweet = (EditText) itemView.findViewById(R.id.ptReplyTweet);
             ibReply = (ImageButton) itemView.findViewById(R.id.ibReply);
+            itemView.setOnClickListener(this);
         }
+
+        // when the user clicks on a row, show MovieDetailsActivity for the selected Movie
+        @Override
+        public void onClick(View view) {
+            // gets item position
+            int position = getAdapterPosition();
+            // make sure the position is valid, i.e. actually exists in the view
+            if (position != RecyclerView.NO_POSITION) {
+                // get the movie at the position, this won't work if the class is static
+                Tweet tweet = mTweets.get(position);
+                // create intent for the new activity
+                Intent intent = new Intent(context, TweetDetailsActivity.class);
+                // serialize the movie using parceler, use its short name as a key
+                intent.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
+                // show the activity
+                context.startActivity(intent);
+//                context.startActivityForResult();
+                //handler.onClick(tweet, context);
+            }
+        }
+
+
     }
 
     // Clean all elements of the recycler
@@ -151,5 +208,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         mTweets.addAll(list);
         notifyDataSetChanged();
     }
+
+
 
 }

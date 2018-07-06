@@ -70,6 +70,7 @@
         android:layout_below="@+id/tvBody"
         android:layout_marginTop="5dp"
         android:layout_toEndOf="@+id/ivRetweetsImage"
+        android:paddingTop="3dp"
         android:text="TextView" />
 
     <ImageView
@@ -92,6 +93,7 @@
         android:layout_marginStart="-21dp"
         android:layout_marginTop="5dp"
         android:layout_toEndOf="@+id/ivFavoritesImage"
+        android:paddingTop="3dp"
         android:text="TextView" />
 
     <ImageButton
@@ -103,5 +105,23 @@
         android:layout_marginTop="6dp"
         android:layout_toStartOf="@+id/ivRetweetsImage"
         app:srcCompat="@drawable/reply" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_alignParentBottom="false"
+        android:layout_below="@+id/ibReply"
+        android:text="_______________________________________________________________________________________" />
+
+    <ImageView
+        android:id="@+id/upload"
+        android:layout_width="28dp"
+        android:layout_height="34dp"
+        android:layout_below="@+id/tvBody"
+        android:layout_toEndOf="@+id/tvNumFavorites"
+        android:layout_toRightOf="@+id/tvNumFavorites"
+        android:paddingLeft="5dp"
+        app:srcCompat="@drawable/upload" />
 
 </RelativeLayout>

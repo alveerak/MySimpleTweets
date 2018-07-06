@@ -57,7 +57,7 @@ public class ComposeActivity extends AppCompatActivity {
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             //This sets a textview to the current length
-            tvCharacterCount.setText(String.valueOf(s.length()));
+            tvCharacterCount.setText(String.valueOf(s.length())+"/280");
         }
 
         public void afterTextChanged(Editable s) {

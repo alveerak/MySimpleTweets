@@ -11,6 +11,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Profile"
-        tools:layout_editor_absoluteX="131dp"
+        tools:layout_editor_absoluteX="172dp"
         tools:layout_editor_absoluteY="123dp" />
 </android.support.constraint.ConstraintLayout>
