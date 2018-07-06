@@ -1,17 +1,22 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codepath.apps.restclienttemplate.models.GlideApp;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+
+import org.parceler.Parcels;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,7 +51,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
     // bind the values based on the position of the element
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         // get the data according to position
         Tweet tweet = mTweets.get(position);
 
@@ -55,7 +60,18 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         holder.tvBody.setText(tweet.body);
         holder.tvTimeElapsed.setText(getRelativeTimeAgo(tweet.createdAt));
         holder.tvHandle.setText("    @"+tweet.handle);
-
+        holder.tvNumRetweets.setText(tweet.retweet_count);
+        holder.tvNumFavorites.setText(tweet.favorites_count);
+        holder.ibReply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Tweet tweetToReply = mTweets.get(position);
+                Intent i = new Intent(context, ReplyActivity.class);
+                i.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweetToReply));
+                context.startActivity(i);
+            }
+        });
+        //holder.ptReplyTweet.setText(new O);
 
         // load image using glide
         GlideApp.with(context)
@@ -96,6 +112,14 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         public TextView tvBody;
         public TextView tvTimeElapsed;
         public TextView tvHandle;
+        public ImageView ivRetweetsImage;
+        public TextView tvNumRetweets;
+        public ImageView ivFavoritesImage;
+        public TextView tvNumFavorites;
+        public EditText ptReplyTweet;
+        public ImageButton ibReply;
+
+
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -107,7 +131,25 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             tvBody = (TextView) itemView.findViewById(R.id.tvBody);
             tvTimeElapsed = (TextView) itemView.findViewById(R.id.tvTimeElapsed);
             tvHandle = (TextView) itemView.findViewById(R.id.tvHandle);
+            ivRetweetsImage = (ImageView) itemView.findViewById(R.id.ivRetweetsImage);
+            tvNumRetweets = (TextView) itemView.findViewById(R.id.tvNumRetweets);
+            ivFavoritesImage = (ImageView) itemView.findViewById(R.id.ivFavoritesImage);
+            tvNumFavorites = (TextView) itemView.findViewById(R.id.tvNumFavorites);
+            ptReplyTweet = (EditText) itemView.findViewById(R.id.ptReplyTweet);
+            ibReply = (ImageButton) itemView.findViewById(R.id.ibReply);
         }
+    }
+
+    // Clean all elements of the recycler
+    public void clear() {
+        mTweets.clear();
+        notifyDataSetChanged();
+    }
+
+    // Add a list of items -- change to type used
+    public void addAll(List<Tweet> list) {
+        mTweets.addAll(list);
+        notifyDataSetChanged();
     }
 
 }

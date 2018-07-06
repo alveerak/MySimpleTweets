@@ -19,29 +19,30 @@ import org.parceler.Parcels;
 
 import cz.msebera.android.httpclient.Header;
 
-public class ComposeActivity extends AppCompatActivity {
+public class ReplyActivity extends AppCompatActivity {
     public EditText tweetTextField;
     public AsyncHttpResponseHandler handler;
     public TwitterClient client;
-    public Tweet tweet;
+    public Tweet reply_to_tweet;
+
     public TextView tvCharacterCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_compose);
+        setContentView(R.layout.activity_reply);
 
-        tweetTextField = (EditText) findViewById(R.id.ptComposeTweet);
-        tvCharacterCount = (TextView) findViewById(R.id.tvCharacterCount);
+        tweetTextField = (EditText) findViewById(R.id.ptReplyTweet);
+        tvCharacterCount = (TextView) findViewById(R.id.tvReplyCharacterCount);
         tweetTextField.addTextChangedListener(mTextEditorWatcher);
         client = TwitterApp.getRestClient(this);
         handler = new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
-                    tweet = Tweet.fromJSON(response);
-                    Intent i = new Intent(ComposeActivity.this, TimelineActivity.class);
-                    i.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
+                    Tweet new_tweet = Tweet.fromJSON(response);
+                    Intent i = new Intent(ReplyActivity.this, TimelineActivity.class);
+                    i.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(new_tweet));
                     setResult(2, i);
                     finish();
                 } catch (JSONException e) {
@@ -49,6 +50,9 @@ public class ComposeActivity extends AppCompatActivity {
                 }
             }
         };
+
+        reply_to_tweet = (Tweet)  Parcels.unwrap(getIntent().getParcelableExtra(Tweet.class.getSimpleName()));
+        tweetTextField.setText("@"+reply_to_tweet.handle);
     }
 
     private final TextWatcher mTextEditorWatcher = new TextWatcher() {
@@ -75,7 +79,7 @@ public class ComposeActivity extends AppCompatActivity {
     }
 
     public void onCloseCompose(View w) {
-        Intent i = new Intent(ComposeActivity.this, TimelineActivity.class);
+        Intent i = new Intent(ReplyActivity.this, TimelineActivity.class);
         startActivity(i);
     }
 }

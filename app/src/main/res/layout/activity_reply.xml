@@ -7,28 +7,28 @@
     tools:context=".ComposeActivity">
 
     <EditText
-        android:id="@+id/ptComposeTweet"
+        android:id="@+id/ptReplyTweet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="What's happening..."
+        android:hint="Reply!"
         android:inputType="textPersonName"
         android:maxLength="140"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="6dp" />
 
     <Button
-        android:id="@+id/tweetButton"
+        android:id="@+id/replyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="213dp"
-        android:text="Compose"
+        android:text="Reply"
         android:onClick="onClickTweet"/>
 
     <Button
-        android:id="@+id/bClose"
+        android:id="@+id/bCloseReply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -38,7 +38,7 @@
         android:text="X" />
 
     <TextView
-        android:id="@+id/tvCharacterCount"
+        android:id="@+id/tvReplyCharacterCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
