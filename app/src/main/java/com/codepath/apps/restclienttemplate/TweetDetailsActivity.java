@@ -87,7 +87,7 @@ public class TweetDetailsActivity extends AppCompatActivity{
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
                     tweet = Tweet.fromJSON(response);
-                    Intent i = new Intent();
+                    Intent i = new Intent(TweetDetailsActivity.this, TimelineActivity.class);
                     i.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
                     setResult(2, i);
                     Toast.makeText(TweetDetailsActivity.this, "You retweeted the tweet from details!", Toast.LENGTH_LONG).show();
@@ -135,4 +135,9 @@ public class TweetDetailsActivity extends AppCompatActivity{
         startActivity(i);
     }
 
+
+    public void onExit(View w) {
+        Intent i = new Intent(this, TimelineActivity.class);
+        startActivity(i);
+    }
 }

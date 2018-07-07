@@ -80,4 +80,13 @@
         android:onClick="onReply"
         app:srcCompat="@drawable/reply" />
 
+    <ImageView
+        android:id="@+id/exitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        app:srcCompat="@drawable/x"
+        android:onClick="onExit"/>
+
 </RelativeLayout>

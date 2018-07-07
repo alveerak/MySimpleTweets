@@ -104,6 +104,16 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                 //context.startActivity(i);
             }
         });
+        holder.ivProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Tweet tweetToReply = mTweets.get(position);
+                Intent i = new Intent(context, UserActivity.class);
+                i.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweetToReply));
+                //handler.onClick(tweetToReply, context);
+                context.startActivity(i);
+            }
+        });
 
         //holder.ptReplyTweet.setText(new O);
 
@@ -184,13 +194,13 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                 // get the movie at the position, this won't work if the class is static
                 Tweet tweet = mTweets.get(position);
                 // create intent for the new activity
-                Intent intent = new Intent(context, TweetDetailsActivity.class);
+                //Intent intent = new Intent(context, TweetDetailsActivity.class);
                 // serialize the movie using parceler, use its short name as a key
-                intent.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
+                //intent.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
                 // show the activity
-                context.startActivity(intent);
+                //context.startActivity(intent);
 //                context.startActivityForResult();
-                //handler.onClick(tweet, context);
+                handler.onClick(tweet, context);
             }
         }
 

@@ -14,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -70,7 +69,7 @@ public class TimelineActivity extends AppCompatActivity {
             @Override
             public void onClick(Tweet tweet, Context context) {
                 // create intent for the new activity
-                Intent i = new Intent(context, ReplyActivity.class);
+                Intent i = new Intent(context, TweetDetailsActivity.class);
                 i.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
                 startActivityForResult(i, 10);
             }
@@ -203,7 +202,7 @@ public class TimelineActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         // check request code and result code first
-        Toast.makeText(this, "jfaldjfa", Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "jfaldjfa", Toast.LENGTH_LONG).show();
         // Use data parameter
         Tweet tweet = (Tweet) Parcels.unwrap(data.getParcelableExtra(Tweet.class.getSimpleName()));
         tweets.add(0, tweet);
