@@ -47,8 +47,6 @@ public class TweetDetailsActivity extends AppCompatActivity{
     public TwitterClient actionClient;
     public AsyncHttpResponseHandler actionHandler;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,7 +88,6 @@ public class TweetDetailsActivity extends AppCompatActivity{
                     Intent i = new Intent(TweetDetailsActivity.this, TimelineActivity.class);
                     i.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
                     setResult(2, i);
-                    Toast.makeText(TweetDetailsActivity.this, "You retweeted the tweet from details!", Toast.LENGTH_LONG).show();
                     finish();
                 } catch (JSONException e) {
                     e.printStackTrace();
